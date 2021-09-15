@@ -1,0 +1,1 @@
+{"version":3,"file":"isTTLExpired.js","sourceRoot":"","sources":["../../src/helpers/isTTLExpired.ts"],"names":[],"mappings":";;;AAAA,SAAgB,YAAY,CAAC,GAAuC;IAClE,IAAI,GAAG,IAAI,IAAI,IAAI,GAAG,KAAK,KAAK,EAAE;QAChC,OAAO,KAAK,CAAC;KACd;IAED,OAAO,GAAG,GAAG,IAAI,GAAG,IAAI,CAAC,GAAG,EAAE,CAAC;AACjC,CAAC;AAND,oCAMC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"extractEndpointFromEvent.js","sourceRoot":"","sources":["../../src/helpers/extractEndpointFromEvent.ts"],"names":[],"mappings":";;;AAEA,SAAgB,wBAAwB,CACtC,KAA+B;IAE/B,OAAO,WAAW,KAAK,CAAC,cAAc,CAAC,UAAU,IAAI,KAAK,CAAC,cAAc,CAAC,KAAK,EAAE,CAAC;AACpF,CAAC;AAJD,4DAIC"}

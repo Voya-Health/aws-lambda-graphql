@@ -1,0 +1,1 @@
+{"version":3,"file":"ArrayPubSub.d.ts","sourceRoot":"","sources":["../src/ArrayPubSub.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,kBAAkB,EAAE,MAAM,SAAS,CAAC;AAE7C;;;;;;;;;;;GAWG;AACH,qBAAa,WAAW;IACtB,OAAO,CAAC,MAAM,CAAuB;gBAEzB,MAAM,EAAE,kBAAkB,EAAE;IAIlC,OAAO;IAIP,SAAS,IAAI,OAAO,CAAC,MAAM,CAAC;IAI5B,WAAW;IAIjB,aAAa,CAAC,UAAU,EAAE,MAAM,GAAG,MAAM,EAAE;CAa5C"}

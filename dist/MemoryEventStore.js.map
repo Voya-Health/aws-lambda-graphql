@@ -1,0 +1,1 @@
+{"version":3,"file":"MemoryEventStore.js","sourceRoot":"","sources":["../src/MemoryEventStore.ts"],"names":[],"mappings":";;;AAEA,MAAa,gBAAgB;IAG3B;QAIA,YAAO,GAAG,KAAK,EAAE,KAAyB,EAAiB,EAAE;YAC3D,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC;QAC1B,CAAC,CAAC;QALA,IAAI,CAAC,MAAM,GAAG,EAAE,CAAC;IACnB,CAAC;CAKF;AAVD,4CAUC"}

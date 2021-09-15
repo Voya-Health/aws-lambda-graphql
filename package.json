@@ -1,0 +1,65 @@
+{
+  "name": "aws-lambda-graphql",
+  "version": "1.0.0-alpha.24",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/michalkvasnicak/aws-lambda-graphql/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michalkvasnicak/aws-lambda-graphql"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "apollo",
+    "aws",
+    "lambda",
+    "apollo",
+    "graphql",
+    "subscriptions",
+    "apigateway",
+    "websocket",
+    "http",
+    "graphql-subscriptions",
+    "serverless"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "description": "Apollo server for AWS Lambda with WebSocket subscriptions support over API Gateway v1 + v2",
+  "dependencies": {
+    "@aws-sdk/client-apigatewaymanagementapi": "^3.31.0",
+    "@aws-sdk/client-dynamodb": "^3.31.0",
+    "@aws-sdk/util-dynamodb": "^3.31.0",
+    "@types/ioredis": "^4.16.6",
+    "apollo-server-core": "^2.9.14",
+    "apollo-server-lambda": "^2.9.14",
+    "iterall": "^1.2.2",
+    "ulid": "^2.3.0"
+  },
+  "peerDependencies": {
+    "graphql": "^14.x || ^15.x",
+    "graphql-subscriptions": "^1.0.0",
+    "ioredis": "^4.17.3"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "engineStrict": true,
+  "devDependencies": {
+    "apollo-link": "^1.2.11",
+    "graphql-tag": "^2.10.1",
+    "graphql-tools": "^4.0.6",
+    "mock-socket": "^8.0.5",
+    "subscriptions-transport-ws": "^0.9.16",
+    "wait-for-expect": "1.1.0"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist && rimraf tsconfig.tsbuildinfo",
+    "build": "tsc -p .",
+    "prepublishOnly": "rimraf dist && rimraf tsconfig.tsbuildinfo && tsc -p ."
+  }
+}
