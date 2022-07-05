@@ -389,6 +389,7 @@ export class Server<
             // parse operation from body
             let operation;
             try {
+              console.debug("InTryCatch")
               operation = parseOperationFromEvent(event);
             }
             catch (e) {
