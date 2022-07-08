@@ -314,7 +314,7 @@ export class Server<
                 } else if (result !== null && typeof result === 'object') {
                   newConnectionContext = result;
                 }
-              } catch (err: any) {
+              } catch (err) {
                 const errorResponse = formatMessage({
                   type: SERVER_EVENT_TYPES.GQL_ERROR,
                   payload: { message: err.message },
@@ -433,7 +433,7 @@ export class Server<
                   } else if (result !== null && typeof result === 'object') {
                     newConnectionContext = result;
                   }
-                } catch (err: any) {
+                } catch (err) {
                   const errorResponse = formatMessage({
                     type: SERVER_EVENT_TYPES.GQL_ERROR,
                     payload: { message: err.message },
@@ -632,7 +632,7 @@ export class Server<
             );
           }
         }
-      } catch (e: any) {
+      } catch (e) {
         this.onError(e);
 
         return {
