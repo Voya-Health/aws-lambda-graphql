@@ -38,6 +38,10 @@ interface ExtraGraphQLOptions extends GraphQLOptions {
   $$internal: IContext['$$internal'];
 }
 
+interface GenericError {
+  message: string;
+}
+
 export interface ServerConfig<
   TServer extends object,
   TEventHandler extends LambdaHandler
@@ -271,7 +275,7 @@ export class Server<
   public createWebSocketHandler(): (
     event: APIGatewayWebSocketEvent,
     context: LambdaContext,
-  ) => Promise<APIGatewayProxyResult> {
+  ) => Promise<APIGatewayProxyResult | undefined> {
     return async (event, lambdaContext) => {
       console.debug('=== event', event);
       try {
@@ -310,7 +314,7 @@ export class Server<
                 } else if (result !== null && typeof result === 'object') {
                   newConnectionContext = result;
                 }
-              } catch (err) {
+              } catch (err: any) {
                 const errorResponse = formatMessage({
                   type: SERVER_EVENT_TYPES.GQL_ERROR,
                   payload: { message: err.message },
@@ -372,6 +376,13 @@ export class Server<
             };
           }
           case '$default': {
+            if (event.body == 'hello!') {
+              // We do not try to parse hello messages
+              return {
+                body: event.body ?? '',
+                statusCode: 200,
+              };
+            }
             // here we are processing messages received from a client
             // if we respond here and the route has integration response assigned
             // it will send the body back to client, so it is easy to respond with operation results
@@ -389,14 +400,12 @@ export class Server<
             // parse operation from body
             let operation;
             try {
-              console.debug("InTryCatch")
+              console.debug('InTryCatch');
               operation = parseOperationFromEvent(event);
-            }
-            catch (e) {
-              console.debug('=== ParseOperationFromEvent ',e)
+            } catch (e) {
+              console.debug('=== ParseOperationFromEvent ', e);
               break;
             }
-
 
             // hydrate connection
             let connection = await this.connectionManager.hydrateConnection(
@@ -424,7 +433,7 @@ export class Server<
                   } else if (result !== null && typeof result === 'object') {
                     newConnectionContext = result;
                   }
-                } catch (err) {
+                } catch (err: any) {
                   const errorResponse = formatMessage({
                     type: SERVER_EVENT_TYPES.GQL_ERROR,
                     payload: { message: err.message },
@@ -623,7 +632,7 @@ export class Server<
             );
           }
         }
-      } catch (e) {
+      } catch (e: any) {
         this.onError(e);
 
         return {
