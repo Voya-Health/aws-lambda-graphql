@@ -346,10 +346,10 @@ export class DynamoDBSubscriptionManager implements ISubscriptionManager {
             RequestItems: {
               [this.subscriptionsTableName]: Items.map((item) => ({
                 DeleteRequest: {
-                  Key: marshall({
+                  Key: {
                     event: item.event,
                     subscriptionId: item.subscriptionId,
-                  }),
+                  },
                 },
               })),
               [this.subscriptionOperationsTableName]: Items.map((item) => ({

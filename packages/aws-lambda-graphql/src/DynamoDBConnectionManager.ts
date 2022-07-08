@@ -225,7 +225,7 @@ export class DynamoDBConnectionManager implements IConnectionManager {
           Data: payload,
         }),
       );
-    } catch (e) {
+    } catch (e: any) {
       // this is stale connection
       // remove it from DB
       if (e && e.statusCode === 410) {
