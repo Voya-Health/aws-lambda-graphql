@@ -277,7 +277,6 @@ export class Server<
     context: LambdaContext,
   ) => Promise<APIGatewayProxyResult | undefined> {
     return async (event, lambdaContext) => {
-      console.debug('=== event', event);
       try {
         // based on routeKey, do actions
         switch (event.requestContext.routeKey) {
@@ -285,8 +284,6 @@ export class Server<
             const { onWebsocketConnect, connectionEndpoint } =
               this.subscriptionOptions || {};
             console.debug('=== connectionEndpoint', connectionEndpoint);
-            console.debug('=== subscriptionOptions', this.subscriptionOptions);
-            console.debug('=== onWebsocketConnect', onWebsocketConnect);
 
             // register connection
             // if error is thrown during registration, connection is rejected
@@ -314,7 +311,7 @@ export class Server<
                 } else if (result !== null && typeof result === 'object') {
                   newConnectionContext = result;
                 }
-              } catch (err: any) {
+              } catch (err) {
                 const errorResponse = formatMessage({
                   type: SERVER_EVENT_TYPES.GQL_ERROR,
                   payload: { message: err.message },
@@ -432,7 +429,7 @@ export class Server<
                   } else if (result !== null && typeof result === 'object') {
                     newConnectionContext = result;
                   }
-                } catch (err: any) {
+                } catch (err) {
                   const errorResponse = formatMessage({
                     type: SERVER_EVENT_TYPES.GQL_ERROR,
                     payload: { message: err.message },
@@ -631,7 +628,7 @@ export class Server<
             );
           }
         }
-      } catch (e: any) {
+      } catch (e) {
         this.onError(e);
 
         return {
