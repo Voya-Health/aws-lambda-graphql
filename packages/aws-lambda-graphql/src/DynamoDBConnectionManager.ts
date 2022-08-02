@@ -218,14 +218,13 @@ export class DynamoDBConnectionManager implements IConnectionManager {
   ): Promise<void> => {
     try {
       // TODO filter on region of connection (dont' try to send to wrong region in the 1st place)
-      console.debug('=== sendToConnection', connection.data.endpoint);
       await this.createApiGatewayManager(connection.data.endpoint).send(
         new PostToConnectionCommand({
           ConnectionId: connection.id,
           Data: payload,
         }),
       );
-    } catch (e: any) {
+    } catch (e) {
       // this is stale connection
       // remove it from DB
       if (e && e.statusCode === 410) {
