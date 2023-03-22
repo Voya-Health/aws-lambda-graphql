@@ -1,4 +1,3 @@
-import assert from 'assert';
 import {
   BatchWriteItemCommand,
   DynamoDBClient,
@@ -9,14 +8,15 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { AttributeValue } from '@aws-sdk/client-dynamodb/models/models_0';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
+import assert from 'assert';
+import { computeTTL } from './helpers';
 import {
   IConnection,
-  ISubscriber,
-  ISubscriptionManager,
   IdentifiedOperationRequest,
+  ISubscriber,
   ISubscriptionEvent,
+  ISubscriptionManager,
 } from './types';
-import { computeTTL } from './helpers';
 
 const DEFAULT_TTL = 7200;
 
@@ -341,25 +341,35 @@ export class DynamoDBSubscriptionManager implements ISubscriptionManager {
       }
 
       if (Items.length > 0) {
-        await this.db.send(
-          new BatchWriteItemCommand({
-            RequestItems: {
-              [this.subscriptionsTableName]: Items.map((item) => ({
-                DeleteRequest: {
-                  Key: {
-                    event: item.event,
-                    subscriptionId: item.subscriptionId,
-                  },
-                },
-              })),
-              [this.subscriptionOperationsTableName]: Items.map((item) => ({
-                DeleteRequest: {
-                  Key: marshall({ subscriptionId: item.subscriptionId }),
-                },
-              })),
+        const items = {
+          [this.subscriptionsTableName]: Items.map((item) => ({
+            DeleteRequest: {
+              Key: marshall({
+                event: item.event,
+                subscriptionId: item.subscriptionId,
+              }),
             },
-          }),
-        );
+          })),
+          [this.subscriptionOperationsTableName]: Items.map((item) => ({
+            DeleteRequest: {
+              Key: marshall({ subscriptionId: item.subscriptionId }),
+            },
+          })),
+        };
+
+        try {
+          await this.db.send(
+            new BatchWriteItemCommand({
+              RequestItems: items,
+            }),
+          );
+        } catch (e) {
+          console.warn(
+            '========> Error Processing items: ',
+            JSON.stringify(items),
+            this.subscriptionsTableName,
+          );
+        }
       }
 
       cursor = LastEvaluatedKey;
