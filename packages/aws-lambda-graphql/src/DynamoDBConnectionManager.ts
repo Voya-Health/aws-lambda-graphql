@@ -1,28 +1,24 @@
-import assert from 'assert';
+import {
+  ApiGatewayManagementApiClient,
+  DeleteConnectionCommand,
+  PostToConnectionCommand
+} from '@aws-sdk/client-apigatewaymanagementapi';
 import {
   DeleteItemCommand,
   DynamoDBClient,
   GetItemCommand,
   PutItemCommand,
-  UpdateItemCommand,
+  UpdateItemCommand
 } from '@aws-sdk/client-dynamodb';
-import {
-  ApiGatewayManagementApiClient,
-  DeleteConnectionCommand,
-  PostToConnectionCommand,
-} from '@aws-sdk/client-apigatewaymanagementapi';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
+import assert from 'assert';
 import { ConnectionNotFoundError } from './errors';
-import {
-  IConnection,
-  IConnectEvent,
-  IConnectionManager,
-  ISubscriptionManager,
-  IConnectionData,
-  HydrateConnectionOptions,
-} from './types';
 import { computeTTL } from './helpers';
 import { isTTLExpired } from './helpers/isTTLExpired';
+import {
+  HydrateConnectionOptions, IConnectEvent, IConnection, IConnectionData, IConnectionManager,
+  ISubscriptionManager
+} from './types';
 
 const DEFAULT_TTL = 7200;
 
@@ -224,7 +220,7 @@ export class DynamoDBConnectionManager implements IConnectionManager {
           Data: payload,
         }),
       );
-    } catch (e) {
+    } catch (e: any) {
       // this is stale connection
       // remove it from DB
       if (e && e.statusCode === 410) {

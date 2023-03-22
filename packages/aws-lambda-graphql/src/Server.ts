@@ -2,37 +2,37 @@ import {
   ApolloServer,
   Config,
   CreateHandlerOptions,
-  GraphQLOptions,
+  GraphQLOptions
 } from 'apollo-server-lambda';
 import assert from 'assert';
 import {
-  APIGatewayProxyResult,
   APIGatewayProxyEvent,
+  APIGatewayProxyResult,
   Context as LambdaContext,
-  Handler as LambdaHandler,
+  Handler as LambdaHandler
 } from 'aws-lambda';
-import { isAsyncIterable } from 'iterall';
 import { ExecutionResult } from 'graphql';
 import { PubSub } from 'graphql-subscriptions';
-import {
-  APIGatewayWebSocketEvent,
-  IConnectionManager,
-  IContext,
-  IEventProcessor,
-  ISubscriptionManager,
-  IdentifiedOperationRequest,
-  IConnection,
-  OperationRequest,
-} from './types';
+import { isAsyncIterable } from 'iterall';
+import { execute, ExecutionParams } from './execute';
+import { formatMessage } from './formatMessage';
 import { extractEndpointFromEvent, parseOperationFromEvent } from './helpers';
 import {
-  SERVER_EVENT_TYPES,
   isGQLConnectionInit,
-  isGQLStopOperation,
   isGQLConnectionTerminate,
+  isGQLStopOperation,
+  SERVER_EVENT_TYPES
 } from './protocol';
-import { formatMessage } from './formatMessage';
-import { execute, ExecutionParams } from './execute';
+import {
+  APIGatewayWebSocketEvent,
+  IConnection,
+  IConnectionManager,
+  IContext,
+  IdentifiedOperationRequest,
+  IEventProcessor,
+  ISubscriptionManager,
+  OperationRequest
+} from './types';
 
 interface ExtraGraphQLOptions extends GraphQLOptions {
   $$internal: IContext['$$internal'];
@@ -311,7 +311,7 @@ export class Server<
                 } else if (result !== null && typeof result === 'object') {
                   newConnectionContext = result;
                 }
-              } catch (err) {
+              } catch (err: any) {
                 const errorResponse = formatMessage({
                   type: SERVER_EVENT_TYPES.GQL_ERROR,
                   payload: { message: err.message },
@@ -429,7 +429,7 @@ export class Server<
                   } else if (result !== null && typeof result === 'object') {
                     newConnectionContext = result;
                   }
-                } catch (err) {
+                } catch (err: any) {
                   const errorResponse = formatMessage({
                     type: SERVER_EVENT_TYPES.GQL_ERROR,
                     payload: { message: err.message },
@@ -628,7 +628,7 @@ export class Server<
             );
           }
         }
-      } catch (e) {
+      } catch (e: any) {
         this.onError(e);
 
         return {
